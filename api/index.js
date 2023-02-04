@@ -10,6 +10,8 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const uploadMiddleware = multer({ dest: 'uploads/' });
 const fs = require('fs');
+const path = require('path');
+
 
 const salt = bcrypt.genSaltSync(10);
 const secret = 'asdfe45we45w345wegw345werjktjwertkj';
@@ -127,6 +129,17 @@ app.get('/post', async (req,res) => {
       .limit(20)
   );
 });
+app.get("/img/:id", async(req, res)=>{
+  
+  const imgName = req.params.id;
+  const pathIn = path.join(path.join(`${__dirname}/../uploads/${imgName}`))
+  
+  if (!fs.existsSync(pathIn)) {
+      return res.status(404).json({message: "404 image not found"});
+    }
+    
+  res.sendFile(pathIn);
+})
 
 app.get('/post/:id', async (req, res) => {
   const {id} = req.params;
@@ -134,5 +147,6 @@ app.get('/post/:id', async (req, res) => {
   res.json(postDoc);
 })
 
-app.listen(4000);
-//
+app.listen(4000, ()=>{
+  console.log('server started');
+});
