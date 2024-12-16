@@ -1,6 +1,6 @@
 {
-    "buildCommand": "cd client && npm install && npm run build",
-    "outputDirectory": "client/dist",
+    "buildCommand": "cd client && yarn && yarn build",
+    "outputDirectory": "client/build",
     "framework": "create-react-app",
     "rewrites": [
         {
