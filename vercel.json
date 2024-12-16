@@ -1,7 +1,7 @@
 {
     "buildCommand": "cd client && npm install && npm run build",
     "outputDirectory": "client/dist",
-    "framework": "react",
+    "framework": "create-react-app",
     "rewrites": [
         {
             "source": "/api/(.*)",
