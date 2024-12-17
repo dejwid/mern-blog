@@ -111,7 +111,7 @@ app.post('/api/post', uploadMiddleware.single('file'), async (req,res) => {
 
 });
 
-app.put('/post',uploadMiddleware.single('file'), async (req,res) => {
+app.put('/api/post',uploadMiddleware.single('file'), async (req,res) => {
   let location = null;
   if (req.file) {
     location = req.file.location;
