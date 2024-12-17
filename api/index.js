@@ -45,11 +45,11 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 mongoose.set('strictQuery', true);
 mongoose.connect(process.env.MONGO_URI);
 
-app.get('/test', async (req,res) => {
+app.get('/api/test', async (req,res) => {
   res.json('test ok');
 });
 
-app.post('/register', async (req,res) => {
+app.post('/api/register', async (req,res) => {
   const {username,password} = req.body;
   try{
     const userDoc = await User.create({
@@ -63,7 +63,7 @@ app.post('/register', async (req,res) => {
   }
 });
 
-app.post('/login', async (req,res) => {
+app.post('/api/login', async (req,res) => {
   const {username,password} = req.body;
   const userDoc = await User.findOne({username});
   const passOk = bcrypt.compareSync(password, userDoc.password);
@@ -81,7 +81,7 @@ app.post('/login', async (req,res) => {
   }
 });
 
-app.get('/profile', (req,res) => {
+app.get('/api/profile', (req,res) => {
   const {token} = req.cookies;
   jwt.verify(token, secret, {}, (err,info) => {
     if (err) throw err;
@@ -89,11 +89,11 @@ app.get('/profile', (req,res) => {
   });
 });
 
-app.post('/logout', (req,res) => {
+app.post('/api/logout', (req,res) => {
   res.cookie('token', '').json('ok');
 });
 
-app.post('/post', uploadMiddleware.single('file'), async (req,res) => {
+app.post('/api/post', uploadMiddleware.single('file'), async (req,res) => {
   const {location} = req.file;
   const {token} = req.cookies;
   jwt.verify(token, secret, {}, async (err,info) => {
@@ -138,7 +138,7 @@ app.put('/post',uploadMiddleware.single('file'), async (req,res) => {
 
 });
 
-app.get('/post', async (req,res) => {
+app.get('/api/post', async (req,res) => {
   res.json(
     await Post.find()
       .populate('author', ['username'])
@@ -147,7 +147,7 @@ app.get('/post', async (req,res) => {
   );
 });
 
-app.get('/post/:id', async (req, res) => {
+app.get('/api/post/:id', async (req, res) => {
   const {id} = req.params;
   const postDoc = await Post.findById(id).populate('author', ['username']);
   res.json(postDoc);
