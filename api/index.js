@@ -45,6 +45,10 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 mongoose.set('strictQuery', true);
 mongoose.connect(process.env.MONGO_URI);
 
+app.get('/test', async (req,res) => {
+  res.json('test ok');
+});
+
 app.post('/register', async (req,res) => {
   const {username,password} = req.body;
   try{
