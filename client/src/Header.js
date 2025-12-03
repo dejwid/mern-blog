@@ -10,7 +10,11 @@ export default function Header() {
     }).then(response => {
       response.json().then(userInfo => {
         setUserInfo(userInfo);
+      }).catch(err => {
+        console.log('Error parsing profile response:', err);
       });
+    }).catch(err => {
+      console.log('Error fetching profile:', err);
     });
   }, []);
 
